@@ -4,21 +4,30 @@ using System.Text;
 
 namespace Entidades
 {
-    public class Catedra 
+    public class Catedra
     {
-        Materia[] listaMaterias;
-        
+        public Materia[] listaMaterias;
+
         public Catedra()
         {
             int i = 0;
+            int cuatrimestre = 1;
             this.listaMaterias = new Materia[21];
-            Materia auxMateria;
-            foreach(EMateria materia in Enum.GetValues(typeof(EMateria)))
+            foreach (EMateria materia in Enum.GetValues(typeof(EMateria)))
             {
-                auxMateria = new Materia(i, 0, materia.ToString());
-                this.listaMaterias[i] = auxMateria;
+                this.listaMaterias[i] = new Materia(i, 0, materia.ToString(), (ECuatrimestre)cuatrimestre);
+
+                if (i == 4)
+                    cuatrimestre = 2;
+
+                if (i == 10)
+                    cuatrimestre = 3;
+
+                if (i == 15)
+                    cuatrimestre = 4;
                 i++;
             }
+            this.inicializarCorrelativades();
         }
 
         public int this[int index]
@@ -29,16 +38,18 @@ namespace Entidades
             }
         }
 
-        public void Mostrar()
+        public Materia[] ListaMaterias
         {
-            foreach (Materia item in this.listaMaterias)
+            get
             {
-                Console.WriteLine(item.indice + " " + item.estado + " " +item.nombre);
+                return this.listaMaterias;
             }
+
         }
 
         public void inicializarCorrelativades()
         {
+            //SEGUNDO CUATRIMETRE
             this.listaMaterias[(int)EMateria.Programacion2].listaCorrelatividades.Add((int)EMateria.Programacion1);
             this.listaMaterias[(int)EMateria.Programacion2].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion1);
 
@@ -50,36 +61,69 @@ namespace Entidades
 
             this.listaMaterias[(int)EMateria.LaboratorioDeComputacion2].listaCorrelatividades.Add((int)EMateria.Programacion1);
             this.listaMaterias[(int)EMateria.LaboratorioDeComputacion2].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion1);
+
+
+            //TERCER CUATRIMESTRE
+            this.listaMaterias[(int)EMateria.Programacion3].listaCorrelatividades.Add((int)EMateria.Programacion1);
+            this.listaMaterias[(int)EMateria.Programacion3].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion1);
+            this.listaMaterias[(int)EMateria.Programacion3].listaCorrelatividades.Add((int)EMateria.Programacion2);
+            this.listaMaterias[(int)EMateria.Programacion3].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion2);
+
+            this.listaMaterias[(int)EMateria.OrganizacionContableDeLaEmpresa].listaCorrelatividades.Add((int)EMateria.Matematica);
+
+            this.listaMaterias[(int)EMateria.OrganizacionEmpresarial].listaCorrelatividades.Add((int)EMateria.Matematica);
+            this.listaMaterias[(int)EMateria.OrganizacionEmpresarial].listaCorrelatividades.Add((int)EMateria.Estadistica);
+
+            this.listaMaterias[(int)EMateria.ElementosDeInvestigacionOperativa].listaCorrelatividades.Add((int)EMateria.Matematica);
+            this.listaMaterias[(int)EMateria.ElementosDeInvestigacionOperativa].listaCorrelatividades.Add((int)EMateria.Estadistica);
+
+            this.listaMaterias[(int)EMateria.LaboratorioDeComputacion3].listaCorrelatividades.Add((int)EMateria.Programacion1);
+            this.listaMaterias[(int)EMateria.LaboratorioDeComputacion3].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion1);
+            this.listaMaterias[(int)EMateria.LaboratorioDeComputacion3].listaCorrelatividades.Add((int)EMateria.Programacion2);
+            this.listaMaterias[(int)EMateria.LaboratorioDeComputacion3].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion2);
+
+            
+            //CUARTO CUATRIMESTRE
+            this.listaMaterias[(int)EMateria.MetodologiaDeSistemas].listaCorrelatividades.Add((int)EMateria.MetodologiaDeLaInvestigacion);
+            this.listaMaterias[(int)EMateria.MetodologiaDeSistemas].listaCorrelatividades.Add((int)EMateria.Matematica);
+            this.listaMaterias[(int)EMateria.MetodologiaDeSistemas].listaCorrelatividades.Add((int)EMateria.OrganizacionContableDeLaEmpresa);
+            this.listaMaterias[(int)EMateria.MetodologiaDeSistemas].listaCorrelatividades.Add((int)EMateria.Programacion1);
+            this.listaMaterias[(int)EMateria.MetodologiaDeSistemas].listaCorrelatividades.Add((int)EMateria.Programacion2);
+            this.listaMaterias[(int)EMateria.MetodologiaDeSistemas].listaCorrelatividades.Add((int)EMateria.Programacion3);
+            this.listaMaterias[(int)EMateria.MetodologiaDeSistemas].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion1);
+            this.listaMaterias[(int)EMateria.MetodologiaDeSistemas].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion2);
+            this.listaMaterias[(int)EMateria.MetodologiaDeSistemas].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion3);
+
+            this.listaMaterias[(int)EMateria.DiseñoYAdministracionDeBasesDeDatos].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion1);
+            this.listaMaterias[(int)EMateria.DiseñoYAdministracionDeBasesDeDatos].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion2);
+            this.listaMaterias[(int)EMateria.DiseñoYAdministracionDeBasesDeDatos].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion3);
+            this.listaMaterias[(int)EMateria.DiseñoYAdministracionDeBasesDeDatos].listaCorrelatividades.Add((int)EMateria.Programacion1);
+            this.listaMaterias[(int)EMateria.DiseñoYAdministracionDeBasesDeDatos].listaCorrelatividades.Add((int)EMateria.Programacion2);
+            this.listaMaterias[(int)EMateria.DiseñoYAdministracionDeBasesDeDatos].listaCorrelatividades.Add((int)EMateria.Programacion3);
+
+            this.listaMaterias[(int)EMateria.LaboratorioDeComputacion4].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion1);
+            this.listaMaterias[(int)EMateria.LaboratorioDeComputacion4].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion2);
+            this.listaMaterias[(int)EMateria.LaboratorioDeComputacion4].listaCorrelatividades.Add((int)EMateria.LaboratorioDeComputacion3);
+            this.listaMaterias[(int)EMateria.LaboratorioDeComputacion4].listaCorrelatividades.Add((int)EMateria.Programacion1);
+            this.listaMaterias[(int)EMateria.LaboratorioDeComputacion4].listaCorrelatividades.Add((int)EMateria.Programacion2);
+            this.listaMaterias[(int)EMateria.LaboratorioDeComputacion4].listaCorrelatividades.Add((int)EMateria.Programacion3);
         }
 
-        public void printCursadadaPosible()
+        public bool puedeCursarse(Materia materia)
         {
-            int exit = 0;
-            bool imprimir = true;
-            foreach(Materia item in this.listaMaterias)
+            bool retorno = true;
+            if (materia.estado == 0)
             {
-                if (item.estado == 0)
+                foreach (int indice in materia.listaCorrelatividades)
                 {
-                    foreach (int indice in item.listaCorrelatividades)
+                    if (this.listaMaterias[indice].estado == 0)
                     {
-                        if (this.listaMaterias[indice].estado == 0)
-                        {
-                            imprimir = false;
-                        }
-                    }
-                    if (imprimir == true)
-                    {
-                        Console.WriteLine(item.nombre);
-                    }
-                    else
-                    {
-                        imprimir = true;
+                        retorno = false;
+                        break;
                     }
                 }
-                if (exit == 10)
-                        break;
-                exit++;
             }
+            return retorno;
         }
     }
 }

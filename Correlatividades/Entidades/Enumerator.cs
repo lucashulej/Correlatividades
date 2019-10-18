@@ -25,3 +25,11 @@
     LaboratorioDeComputacion4,
     PracticaSupervisada,
 }
+
+public enum ECuatrimestre
+{
+    PrimerCuatrimestre = 1,
+    SegundoCuatrimestre,
+    TercerCuatrimestre,
+    CuartoCuatrimestre
+}
