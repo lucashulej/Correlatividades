@@ -38,18 +38,48 @@ namespace Correlatividades.WF
 
             this.cmbBoxCuatrimestre.SelectedItem = ECuatrimestre.PrimerCuatrimestre;
             this.cambioDeIndex();
-            
         }
 
         private void BtnCorrelatividades_Click(object sender, EventArgs e)
         {
             this.limpiarLista();
+            int flag1 = 0;
+            int flag2 = 0;
+            int flag3 = 0;
+            int flag4 = 0;
             foreach (Materia materia in this.catedra.listaMaterias)
             {
                 if(materia.estado == 0)
                 {
                     if (this.catedra.puedeCursarse(materia))
+                    {
+                        if(materia.cuatrimestre == ECuatrimestre.PrimerCuatrimestre && flag1 == 0)
+                        {
+                            this.listCursada.Items.Add("Primer Cuatrimestre");
+                            flag1++;
+                        }
+                        if (materia.cuatrimestre == ECuatrimestre.SegundoCuatrimestre && flag2 == 0)
+                        {
+                            this.listCursada.Items.Add("");
+                            this.listCursada.Items.Add("Segundo Cuatrimestre");
+                            flag2++;
+                        }
+                        if (materia.cuatrimestre == ECuatrimestre.TercerCuatrimestre && flag3 == 0)
+                        {
+                            this.listCursada.Items.Add("");
+                            this.listCursada.Items.Add("Tercer Cuatrimestre");
+                            flag3++;
+                        }
+                        if (materia.cuatrimestre == ECuatrimestre.CuartoCuatrimestre && flag4 == 0)
+                        {
+                            this.listCursada.Items.Add("");
+                            this.listCursada.Items.Add("Cuarto Cuatrimestre");
+                            flag4++;
+                        }
+
+
                         this.listCursada.Items.Add(materia.nombre);
+                    }
                 }
             }
         }
@@ -106,6 +136,7 @@ namespace Correlatividades.WF
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox checkBox = (CheckBox)sender;
+            int flag = 0;
             foreach (Materia item in this.catedra.listaMaterias)
             {
                 if(item.nombre == checkBox.Text)
@@ -113,14 +144,32 @@ namespace Correlatividades.WF
                     if(checkBox.Checked == true)
                     {
                         item.estado = 1;
+                        foreach (int index in item.listaCorrelatividades)
+                        {
+                            this.catedra.listaMaterias[index].estado = 1;
+                        }
                     }
                     else
                     {
                         item.estado = 0;
+                        foreach (Materia materia in this.catedra.listaMaterias)
+                        {
+                            foreach (int index in materia.listaCorrelatividades)
+                            {
+                                if(this.catedra.listaMaterias[index].nombre == item.nombre && materia.estado == 1)
+                                {
+                                    materia.estado = 0;
+                                    flag++;
+                                    break;
+                                }
+                            }
+                            if (flag == 1)
+                                break;
+                        }
                     }
                     break;
                 }
             }
-        }
+        }   
     }
 }
