@@ -136,7 +136,6 @@ namespace Correlatividades.WF
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox checkBox = (CheckBox)sender;
-            int flag = 0;
             foreach (Materia item in this.catedra.listaMaterias)
             {
                 if(item.nombre == checkBox.Text)
@@ -152,24 +151,30 @@ namespace Correlatividades.WF
                     else
                     {
                         item.estado = 0;
-                        foreach (Materia materia in this.catedra.listaMaterias)
-                        {
-                            foreach (int index in materia.listaCorrelatividades)
-                            {
-                                if(this.catedra.listaMaterias[index].nombre == item.nombre && materia.estado == 1)
-                                {
-                                    materia.estado = 0;
-                                    flag++;
-                                    break;
-                                }
-                            }
-                            if (flag == 1)
-                                break;
-                        }
+                        this.verificarCorrelatividades();
                     }
                     break;
                 }
             }
         }   
+
+        private void verificarCorrelatividades()
+        {
+            foreach (Materia materia in this.catedra.listaMaterias)
+            {
+                if(materia.estado == 1)
+                {
+                    foreach (int index in materia.listaCorrelatividades)
+                    {
+                        if (this.catedra.listaMaterias[index].estado == 0)
+                        {
+                            materia.estado = 0;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+    
+
